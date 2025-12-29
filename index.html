@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body { font-family: sans-serif; background-color: var(--tg-theme-bg-color, #fff); color: var(--tg-theme-text-color, #000); padding: 20px; }
+        input, textarea { width: 100%; margin-bottom: 15px; padding: 10px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; }
+        button { width: 100%; padding: 15px; background-color: var(--tg-theme-button-color, #3390ec); color: var(--tg-theme-button-text-color, #fff); border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div id="form-container">
+        <h2>Apply for Retainer</h2>
+        <p>Please review the SOPs sent in the chat before applying.</p>
+        
+        <input type="text" id="name" placeholder="Full Name">
+        <input type="text" id="portfolio" placeholder="Link to Portfolio (Drive/YouTube)">
+        <textarea id="experience" rows="4" placeholder="Briefly describe your experience..."></textarea>
+        
+        <button onclick="submitForm()">Submit Application</button>
+    </div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand(); // Make the app full screen
+
+        function submitForm() {
+            const data = {
+                telegramId: tg.initDataUnsafe.user.id,
+                name: document.getElementById('name').value,
+                portfolio: document.getElementById('portfolio').value,
+                experience: document.getElementById('experience').value
+            };
+
+            // Replace with your Google Apps Script Web App URL
+            fetch('YOUR_GOOGLE_SCRIPT_URL_HERE', {
+                method: 'POST',
+                body: JSON.stringify(data)
+            })
+            .then(() => {
+                tg.close(); // Close the mini app after submission
+            });
+        }
+    </script>
+</body>
+</html>
